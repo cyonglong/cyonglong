@@ -16,6 +16,7 @@ export default {
     background-color: pink;
     color:white;
     position:sticky ;
-   
+    top: 0px;
+    z-index: 1;
 }
 </style>
