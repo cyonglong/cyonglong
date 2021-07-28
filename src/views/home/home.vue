@@ -1,18 +1,28 @@
 <template>
   <div class="hello">
     <navbar />
-
+    <tab-control
+        :titles="['流行', '新款', '精选']"
+        @tabClick="itemClick"
+        class="tab-control-show"
+        v-show="isShowcontorl"
+        ref="tabcontrol1"
+        
+      />
     <scroll class="bscroll" 
     @scroll="contentScroll"
     @pullingUpHandler='pullingUpHandler'
     ref='bscroll'>
-      <swiper :banners="banners"></swiper>
+      <swiper :banners="banners" 
+       @showcontorltop='showcontorltop'>
+       </swiper>
       <recommends :recommend="recommend" />
       <recommend-bg />
       <tab-control
         :titles="['流行', '新款', '精选']"
         @tabClick="itemClick"
         class="tab-control"
+        ref="tabcontrol2"
       />
       <goods-list :goods="showgoods" />
      
@@ -66,7 +76,10 @@ export default {
       // contorbar事件的值
       currenType: "pop",
       isShowBackTop:false,
-      
+      //  contorbar的高度
+      contorltophigh:0,
+      // 显示contorl bartop
+      isShowcontorl:false
     };
   },
   created() {
@@ -91,6 +104,7 @@ export default {
       console.log('img')
       
     })
+    
   },
   components: {
     navbar,
@@ -134,8 +148,22 @@ export default {
       // 方法三
       this.currenType = index == 0 ? "pop" : index == 1 ? "new" : "sell";
       // console.log(index)
+      // 两个tabcontrol同步
+        this.$refs.tabcontrol1.currentIndex=index;
+        this.$refs.tabcontrol1.currentIndex=index;
+      
+        
+
     },
 
+
+
+      //  contorbar的高度
+  
+    showcontorltop(){
+      this.contorltophigh=this.$refs.tabcontrol2.$el.offsetTop
+      console.log(this.contorltophigh)
+      },
 
 
 
@@ -161,8 +189,10 @@ export default {
     },
     // 滑动返回坐标
     contentScroll(position){
+      // 显示返回图标
       this.isShowBackTop= (-position.y)>600
-      
+      // 显示contorl top
+      this.isShowcontorl=(-position.y)>this.contorltophigh
     },
       // 下拉加载更多
     pullingUpHandler(){
@@ -208,5 +238,10 @@ export default {
   /* overflow: hidden;
   position: relative; 
   /* /* position: absolute;  */
+}
+.tab-control-show{
+  position: relative;
+  top: 0;
+  z-index: 9;
 }
 </style>

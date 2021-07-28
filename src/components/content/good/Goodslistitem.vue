@@ -1,6 +1,6 @@
 <template>
     <div class="Goodslistitem">
-        <img :src="item.show.img" alt="" @load="imageLoad">
+        <img :src="item.show.img" alt="" @load="imageLoad" @click="itemclick">
         <div class="title">
             <p>{{item.title}}</p>
             <span class="price">￥{{item.price}}</span>
@@ -26,6 +26,10 @@ export default {
     methods:{
         imageLoad(){
             this.$bus.$emit('imageLoad')
+        },
+        itemclick(){
+            console.log('跳转页面')
+            this.$router.push('/detail')
         }
     }
 
