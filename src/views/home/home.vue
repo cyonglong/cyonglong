@@ -4,7 +4,7 @@
 
     <scroll class="bscroll" 
     @scroll="contentScroll"
-  
+    @pullingUpHandler='pullingUpHandler'
     ref='bscroll'>
       <swiper :banners="banners"></swiper>
       <recommends :recommend="recommend" />
@@ -63,8 +63,10 @@ export default {
         sell: { page: 0, list: [] },
       },
       currenTypedefault: ["pop", "new", "sell"],
+      // contorbar事件的值
       currenType: "pop",
-      isShowBackTop:false
+      isShowBackTop:false,
+      
     };
   },
   created() {
@@ -75,6 +77,20 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+    
+  },
+  mounted(){
+    // 图片加载事件
+    const refresh =this.debounce(this.$refs.bscroll.refresh,200)
+    this.$bus.$on('imageLoad',()=>{
+      // 重构bscroll的高度
+      // this.$refs.bscroll.refresh()
+      // 设置抖动
+      // this.debounce(this.$refs.bscroll.refresh(),2000)
+      refresh()
+      console.log('img')
+      
+    })
   },
   components: {
     navbar,
@@ -90,10 +106,15 @@ export default {
     showgoods() {
       return this.goods[this.currenType].list;
     },
+     // bs对象
+    bscroll(){
+      return this.$refs.bscroll.bs
+    }
   },
   methods: {
-    // 事件绑定
-    itemClick(index) {
+    // 事件绑定 
+    // controlbar的事件点击监听
+        itemClick(index) {
       // switch (index) {
       //   case 0:
       //     this.currenType='pop'
@@ -115,23 +136,55 @@ export default {
       // console.log(index)
     },
 
-    // axios请求数据
+
+
+
+
+
+    // axios请求数据 的方法
     getHomeGoods(type) {
       const page = this.goods[type].page + 1;
+          // axios的引用数据请求的方法
       getHomeGoods(type, page).then((res) => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
       });
     },
+
+
+
+
+
     // 返回坐标按钮
     backClick(){
-      this.$refs.bscroll.bs.scrollTo(0,-600)
+      this.bscroll.scrollTo(0,-600)
     },
     // 滑动返回坐标
     contentScroll(position){
       this.isShowBackTop= (-position.y)>600
       
-    }
+    },
+      // 下拉加载更多
+    pullingUpHandler(){
+      // 数据请求（controlbar事件的值）
+      this.getHomeGoods(this.currenType)
+    },
+
+
+
+
+
+
+    // 抖动事件
+   debounce(fun,delay){
+      let timer=null
+      return function(...args){
+        if (timer) clearTimeout(timer)
+        timer= setTimeout(()=>{fun.apply(this,args)
+      // console.log('refresh')
+        },delay)
+      }
+   }
   },
 };
 </script>

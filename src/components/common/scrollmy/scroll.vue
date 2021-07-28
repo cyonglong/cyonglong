@@ -32,13 +32,13 @@ export default {
   },
   mounted() {
     //
-    setTimeout(()=>{ this.initBscroll()},1000)
-    
+    // setTimeout(()=>{ },1000)
+    this.initBscroll()
   },
   methods: {
     initBscroll() {
       this.bs = new BScroll(this.$refs.wrapper, {
-        probeType: 3,
+        probeType: 0,
         // div里面监听必须加click
         click: true,
         // pullUpLoad: true,
@@ -46,7 +46,9 @@ export default {
           threshold: 45,
           stop: 40,
         },
+        pullUpLoad: true
       });
+      // 下拉加载
        this.bs.on("pullingDown", () => {
       console.log("上拉加载");
     //  加载
@@ -66,6 +68,8 @@ export default {
       
     });
 
+      // 上拉加载
+      this.pullup()
       // 2.监听滚动的位置
      this.scrollon()
         
@@ -74,7 +78,24 @@ export default {
          this.bs.on('scroll', (position) => {
         // console.log(position);
         this.$emit('scroll', position)
-      })}
+      })},
+      pullup(){
+        this.bs.on('pullingUp', this.pullingUpHandler)
+      },
+     pullingUpHandler(){
+       console.log('下拉加载')
+      //  子传事件到父
+       this.$emit('pullingUpHandler')
+         this.bs.finishPullUp()
+        // this.bs.refresh()
+        
+     },
+    refresh(){
+      // this.bs 以免父组件中created后，子组件mounted还未挂载，
+      // 防止bs中refresh函数underfunded
+      this.bs && this.bs.refresh()
+      console.log('refresh')
+    }
   },
 };
 </script>
