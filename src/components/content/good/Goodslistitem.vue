@@ -28,8 +28,8 @@ export default {
             this.$bus.$emit('imageLoad')
         },
         itemclick(){
-            console.log('跳转页面')
-            this.$router.push('/detail')
+            // console.log(this.item)
+            this.$router.push('/detail/'+this.item.iid)
         }
     }
 

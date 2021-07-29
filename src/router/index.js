@@ -33,9 +33,10 @@ export default new Router({
       component:Profile
     },
     {
-      path:'/detail',
+      path:'/detail/:iid',
       name:'detail',
       component:Detail
     }
-  ]
+  ],
+ 
 })

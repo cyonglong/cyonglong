@@ -11,7 +11,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .navbar{
     background-color: pink;
     color:white;

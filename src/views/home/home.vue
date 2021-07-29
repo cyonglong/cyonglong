@@ -27,21 +27,6 @@
       <goods-list :goods="showgoods" />
      
 
-      <ul>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-      </ul>
     </scroll> 
     <back-top @click.native="backClick"  v-show="isShowBackTop"/>
   </div>
@@ -86,7 +71,9 @@ export default {
     getHomeMultidata().then((res) => {
       this.banners = res.data.banner.list;
       this.recommend = res.data.recommend.list;
+      // console.log(this.banners)
     });
+    
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
