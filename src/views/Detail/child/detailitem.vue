@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="Object.keys(detailInfo).length!==0">
     <div
       class="detailImage"
       v-for="(item, index) in detailInfo.detailImage[0].list"
@@ -12,7 +12,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      count:0,
+      detailImagelength:0
+    };
   },
   props: {
     detailInfo: {
@@ -25,9 +28,17 @@ export default {
   created() {},
   methods:{
       detailImage(){
-          this.$emit('detailImage')
+        if(++this.count===this.detailImagelength){
+            this.$emit('detailImage')
+        }
+        
         //   console.log('img')
       }
+  },
+  watch:{
+    detailInfo(){
+      this.detailImagelength = this.detailInfo.detailImage[0].list.length
+    }
   }
 };
 </script>

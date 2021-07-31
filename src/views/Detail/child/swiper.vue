@@ -14,7 +14,7 @@ import {Swiper, SwiperItem} from 'components/common/swiper/index.js'
 export default {
     data(){
         return{
-            
+            isload:false
         }
     },
     props:{
@@ -34,7 +34,11 @@ export default {
         
     },
     methods:{
-       
+    //    swiperimgload(){
+    //        if(!this.isload)
+    //        this.$emit('swiperimgload')
+    //        this.isload=true
+    //    }
     }
 }
 </script>
