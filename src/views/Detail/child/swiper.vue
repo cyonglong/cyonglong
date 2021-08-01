@@ -50,8 +50,8 @@ export default {
 overflow: hidden;
  height: 300px;
 }
-/* img{
-    overflow: hidden;
- height: 300px;
-} */
+img{
+    /* overflow: hidden; */
+ /* height: 300px; */
+}
 </style>

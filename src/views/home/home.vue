@@ -46,6 +46,7 @@ import recommends from "views/home/homechild/recommend.vue";
 import recommendBg from "./homechild/recommend_bg.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
+import {itemListenerMixin} from 'common/mixin.js'
 export default {
   name: "home",
   data() {
@@ -79,19 +80,30 @@ export default {
     this.getHomeGoods("sell");
     
   },
+  mixins:[itemListenerMixin],
   mounted(){
     // 图片加载事件
-    const refresh =this.debounce(this.$refs.bscroll.refresh,200)
-    this.$bus.$on('imageLoad',()=>{
-      // 重构bscroll的高度
-      // this.$refs.bscroll.refresh()
-      // 设置抖动
-      // this.debounce(this.$refs.bscroll.refresh(),2000)
-      refresh()
-      console.log('img')
+    // const refresh =this.debounce(this.$refs.bscroll.refresh,200)
+    // this.$bus.$on('imageLoad',()=>{
+    //   // 重构bscroll的高度
+    //   // this.$refs.bscroll.refresh()
+    //   // 设置抖动
+    //   // this.debounce(this.$refs.bscroll.refresh(),2000)
+    //   refresh()
+    //   console.log('img')
       
-    })
+    // })
     
+  },
+  activated(){
+    // console.log('jinru')
+    this.$refs.bscroll.refresh()
+  },
+  deactivated(){
+    // console.log('xiaohui')
+  },
+  destroyed(){
+    // console.log('xiaohui')
   },
   components: {
     navbar,
