@@ -3,6 +3,7 @@
     <div class="navbar">
         <navbar @itemclick='itemclick'  ref="navbar"/>
     </div>
+   
     <scroll ref='bscroll' @scroll='scroll' class="bscroll"> 
         <swiper :itemInfo='itemInfo'  />
         <baseinfo :goods='goods'/>
@@ -166,7 +167,14 @@ methods:{
             }
         },
         bottombaraddshop(){
-        //   this.$store. 
+            const obj={}
+                 obj.iid= this.iid;
+                obj.desc=this.goods.desc;
+                obj.price=this.goods.lowNowPrice;
+                obj.title= this.goods.title;
+                obj.img= this.itemInfo.topImages[0]
+          this.$store.dispatch("ChangeCart",obj)
+        //   console.log('1')
         }
         
         // 跑马灯加载监听
