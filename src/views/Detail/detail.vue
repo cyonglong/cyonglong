@@ -1,5 +1,6 @@
 <template>
 <div>
+    
     <div class="navbar">
         <navbar @itemclick='itemclick'  ref="navbar"/>
     </div>
@@ -15,6 +16,7 @@
     </scroll> 
     <bottombar @bottombaraddshop='bottombaraddshop'/>
     <back-top @click.native="BackTop" v-show="isshow" class="backtop"/>
+    <toast ref="toast"/>
 </div>
 </template>
 <script>
@@ -30,6 +32,8 @@ import bottombar from './child/detailbottombar.vue'
 import goodsItem from 'components/content/good/Goodslist.vue'
 import BackTop from 'components/content/backTop/BackTop.vue'
 import scroll from "components/common/scrollmy/scroll.vue";
+import toast from 'components/common/toast/toast.vue'
+
 
 import {getDetail ,getDetailRecommend, Goods ,Shop,GoodsParam} from 'network/detail.js'
 import {itemListenerMixin} from 'common/mixin.js'
@@ -65,7 +69,8 @@ components:{
            rate,
            goodsItem,
            BackTop, 
-           bottombar
+           bottombar,
+           toast
 },
 created(){
         this.iid=this.$route.params.iid
@@ -173,7 +178,7 @@ methods:{
                 obj.price=this.goods.lowNowPrice;
                 obj.title= this.goods.title;
                 obj.img= this.itemInfo.topImages[0]
-          this.$store.dispatch("ChangeCart",obj)
+          this.$store.dispatch("ChangeCart",obj).then(res=>this.$refs.toast.show(res))
         //   console.log('1')
         }
         

@@ -23,15 +23,19 @@ const store = new Vuex.Store({
             //          break;
             //      }
             // }
-            let oldCart = context.state.cartList.find(item=>item.iid==payload.iid)
+            return new Promise((resolve,reject)=>{ let oldCart = context.state.cartList.find(item=>item.iid==payload.iid)
             if (oldCart) {
                 //  oldCart.count+=1
                 context.commit('addCartcount',oldCart)
+                resolve('商品+1')
             }
             else {
                 payload.count = 1
                 context.commit('addCartList',payload)
+                resolve('添加至购物车')
             }
+            })
+           
         }
     },
 
